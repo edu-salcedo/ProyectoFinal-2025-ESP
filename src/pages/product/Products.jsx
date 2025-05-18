@@ -1,12 +1,9 @@
 
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import MyCard from '../components/MyCard';
+import MyCard from '../../components/MyCard'
 import { useEffect, useState } from "react"
 import { Spinner } from 'react-bootstrap';
-import spinner from "../assets/spinner.svg"
 
 function Products() {
 
