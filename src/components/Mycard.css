@@ -7,6 +7,14 @@
 }
 
 .cardtitle {
-    font-size: 1rem;
+    font-size: 1rem !important;
+}
+
+.CardBody {
+
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    justify-items: center;
 
 }

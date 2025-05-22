@@ -13,12 +13,9 @@ function Login() {
     return (
         <div className='form-container' >
             <Form className='bg-login'>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Usuario</Form.Label>
-                    <Form.Control type="text" placeholder="Enter email" />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
+                <Form.Group className="mb-3">
+                    <Form.Label>User</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Username" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -26,10 +23,10 @@ function Login() {
                     <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
+                    <Form.Check type="checkbox" label="Im not a robot" />
                 </Form.Group>
                 <Button variant="primary" type="submit" onClick={handleLogin} className='w-50 mx-auto mt-4'>
-                    Submit
+                    log in
                 </Button>
             </Form>
         </div>

@@ -5,7 +5,7 @@ function Profile() {
     const { id } = useParams();
     return (
         <>
-            <div>welcome {id}</div>
+            <div>welcome  {id}</div>
         </>
     )
 }

@@ -34,7 +34,7 @@ function Products() {
                         {products.map(product => (
 
                             <Col key={product.id}>
-                                <MyCard title={product.title} image={product.image} description={product.description} />
+                                <MyCard title={product.title} image={product.image} />
                             </Col>
                         ))}
 
