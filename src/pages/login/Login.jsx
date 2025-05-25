@@ -4,8 +4,8 @@ import Form from 'react-bootstrap/Form';
 import "./login.css"
 import { useNavigate } from 'react-router-dom';
 function Login() {
-
     const navigate = useNavigate()
+
     const handleLogin = () => {
         localStorage.setItem('auth', 'true')
         navigate('/profile/edusalcedo')

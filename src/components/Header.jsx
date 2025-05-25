@@ -35,10 +35,7 @@ function Header() {
                             )
                         }
                     </Nav>
-                    <Form className="d-flex px-5">
-                        <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                        <Button variant="outline-success">Search</Button>
-                    </Form>
+
                     <Nav>
                         {
                             !isAuth ? (

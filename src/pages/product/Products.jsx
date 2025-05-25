@@ -5,11 +5,12 @@ import MyCard from '../../components/MyCard'
 import { useEffect, useState } from "react"
 import { Spinner } from 'react-bootstrap';
 
+
 function Products() {
 
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
-
+    const [error, setError] = useState(null)
     useEffect(() => {
         fetch('https://fakestoreapi.com/products/')
             .then(response => response.json())
@@ -18,7 +19,8 @@ function Products() {
                 setLoading(false)
             })
             .catch(err => {
-                console.error("Error de carga de API", err);
+                setError(err.message)
+                console.log(err)
             })
 
     }, []);
@@ -27,19 +29,20 @@ function Products() {
 
     return (
         <>
-            {
+            {error ? (<p>{error}</p>) : (
                 loading ? (<div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>) : (
 
                     <Row className='m-3 gap-4'>
                         {products.map(product => (
 
                             <Col key={product.id}>
-                                <MyCard title={product.title} image={product.image} />
+                                <MyCard id={product.id} title={product.title} price={product.price} image={product.image} />
                             </Col>
                         ))}
 
                     </Row>)
-            }
+            )}
+
         </>
     )
 }

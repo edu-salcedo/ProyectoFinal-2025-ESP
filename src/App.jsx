@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Profile from './pages/profile/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
+import DetailsProduct from './pages/detailsProduct/DetailsProduct'
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <Header />
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/contact' element={<Contact />} />
+            <Route path='/product/:id' element={<DetailsProduct />} />
             <Route path='/products' element={<Products />} />
             <Route path='/login' element={<Login />} />
             <Route path='/profile' element={<Profile />} />
