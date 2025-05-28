@@ -4,6 +4,7 @@
     object-fit: contain;
     background-color: white;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .cardtitle {

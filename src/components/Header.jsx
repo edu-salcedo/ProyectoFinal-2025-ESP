@@ -25,8 +25,8 @@ function Header() {
                     <Nav className="w-75 justify-content-around" style={{ maxHeight: '100px' }} navbarScroll>
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
                         <Nav.Link as={Link} to="/products">Products</Nav.Link>
-                        <Nav.Link as={Link} to="/contact"> Contact</Nav.Link>
                         {
+
                             isAuth && (
                                 <>
                                     <Nav.Link as={Link} to="/profile/edusalcedo"> Profile</Nav.Link>
@@ -36,18 +36,19 @@ function Header() {
                         }
                     </Nav>
 
-                    <Nav>
+                    <Nav className='w-25 justify-content-around'>
                         {
                             !isAuth ? (
                                 <Nav.Link as={Link} to="/login"> Login</Nav.Link>
                             ) : (
-                                <Button variant='' onClick={logOut}> log out</Button>
+                                <Button variant='' onClick={logOut} className=''> log out</Button>
                             )
                         }
+                        <Nav.Link as={Link} to="/cart"><Button variant='primary'><i class="bi bi-cart4"></i></Button></Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
-        </Navbar>
+        </Navbar >
     );
 }
 

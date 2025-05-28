@@ -1,0 +1,42 @@
+
+import { createContext, useState } from "react";
+
+export const CartContext = createContext()
+
+export function CartProvider({ children }) {
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const addToCart = (product) => {
+    // buscamos si el producto ya existe en el carrito
+    const itemIndex = cart.findIndex((item) => item.id === product.id);
+
+    // si el producto ya existe, incrementamos su cantidad
+    if (itemIndex >= 0) {
+      const updatedCart = [...cart];
+      updatedCart[itemIndex].quantity += 1;
+      return setCart(updatedCart);
+    }
+    // si el producto no existe, lo agregamos al carrito con cantidad 1
+
+    setCart(prevState => ([...prevState, { ...product, quantity: 1 }]))
+    console.log('cart after adding', cart);
+
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    setTotalPrice(0);
+  }
+
+  return (
+    <CartContext.Provider value={{ cart, setCart, totalPrice, setTotalPrice, clearCart, addToCart }}>
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+
+
+
+

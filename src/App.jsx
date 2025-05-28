@@ -7,42 +7,50 @@ import Footer from './components/Footer'
 import Login from './pages/login/Login';
 import Admin from './pages/admin/Admin'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Profile from './pages/profile/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
 import DetailsProduct from './pages/detailsProduct/DetailsProduct'
+import { CartProvider } from './context/CartContext'
+import Cart from './pages/cart/cart'
+
 
 
 function App() {
   return (
     <>
-      <Router>
-        <div className='app-container'>
-          <Header />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/product/:id' element={<DetailsProduct />} />
-            <Route path='/products' element={<Products />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/profile' element={<Profile />} />
+      <CartProvider>
+        <Router>
+          <div className='app-container'>
+            <Header />
+            <Routes>
+              <Route path='/' element={<Home />} />
 
-            <Route path='/profile/:id' element={
+              <Route path='/product/:id' element={<DetailsProduct />} />
+              <Route path='/products' element={<Products />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/cart' element={<Cart />} />
 
-              <ProtectedRoute> <Profile /></ProtectedRoute>
-            }>
-            </Route>
-            <Route path='/admin' element={
+              <Route path='/profile/:id' element={
 
-              <ProtectedRoute> <Admin /></ProtectedRoute>
-            }>
-            </Route>
+                <ProtectedRoute> <Profile /></ProtectedRoute>
+              }>
+              </Route>
+              <Route path='/admin' element={
 
-          </Routes>
-          <Footer></Footer>
+                <ProtectedRoute> <Admin /></ProtectedRoute>
+              }>
+              </Route>
 
-        </div>
-      </Router>
+            </Routes>
+            <Footer></Footer>
+
+          </div>
+        </Router>
+      </CartProvider>
     </>
   )
 }
