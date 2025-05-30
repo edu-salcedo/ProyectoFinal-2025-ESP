@@ -3,3 +3,7 @@
     height: 60px;
     object-fit: contain;
 }
+
+.btn-quantity {
+    padding: 0 3px;
+}

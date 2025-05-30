@@ -1,8 +1,20 @@
 import React from 'react'
 import { UseCart } from '../../hooks/useCart'
 import './cart.css'
+import Button from 'react-bootstrap/Button'
 export default function Cart() {
-    const { cart, clearCart } = UseCart()
+    const { cart, clearCart, addProductQuantity, restProductQuantity, removeProduct } = UseCart()
+
+    const handleAddQuantity = (idProduct) => {
+        addProductQuantity(idProduct)
+    }
+    const handleRestQuantity = (idProduct) => {
+        restProductQuantity(idProduct)
+    }
+
+    const handleRemoveProduct = (idProduct) => {
+        removeProduct(idProduct)
+    }
     return (
         <div className='container mt-5 text-center'>
             {cart.length > 0 ? (
@@ -14,16 +26,22 @@ export default function Cart() {
                                 <th scope="col">Product</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
+                                <th scope="col"></th>
                                 <th scope="col">Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             {cart.map((product) => (
-                                <tr key={product.id}>
-                                    <th scope="row"><img src={product.image} className='cart-img' alt="" /></th>
+                                <tr key={product.id} className=''>
+                                    <th scope=""><img src={product.image} className='cart-img' alt="" /></th>
                                     <td>{product.title}</td>
                                     <td>${product.price.toFixed(2)}</td>
                                     <td>{product.quantity}</td>
+                                    <td className='text-center'>
+                                        <Button variant='secondary' className='btn-quantity' onClick={() => { handleRestQuantity(product.id) }}  ><i className="bi bi-dash-lg"></i></Button>
+                                        <Button variant='secondary' className='btn-quantity mx-2' onClick={() => { handleAddQuantity(product.id) }} ><i className="bi bi-plus-lg"></i></Button>
+                                        <Button variant='danger' className='btn-quantity ' onClick={() => { handleRemoveProduct(product.id) }}  ><i className="bi bi-trash3"></i></Button>
+                                    </td>
                                     <td>${(product.price * product.quantity).toFixed(2)}</td>
                                 </tr>
                             ))}
@@ -31,8 +49,6 @@ export default function Cart() {
                     </table>
                     <button className='btn btn-danger' onClick={() => { clearCart() }}>vaciar carrito</button>
                 </div>
-
-
             ) : (
                 <h3 className='text-center'>el carrito esta vacío</h3>
             )}

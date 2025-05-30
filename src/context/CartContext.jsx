@@ -24,13 +24,37 @@ export function CartProvider({ children }) {
 
   };
 
+  const addProductQuantity = (idProduct) => {
+    const updatedCart = cart.map((item) => {
+      if (item.id === idProduct) {
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
+    setCart(updatedCart);
+  };
+  const restProductQuantity = (idProduct) => {
+    const updatedCart = cart.map((item) => {
+      if (item.id === idProduct) {
+        //devolvemos el producto con la cantidad restada, pero si es mayor a 1
+        return { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 };
+      }
+      return item;
+    });
+    setCart(updatedCart);
+  };
+  const removeProduct = (idProduct) => {
+    const updatedCart = cart.filter((item) => item.id !== idProduct);
+    setCart(updatedCart);
+  };
+
   const clearCart = () => {
     setCart([]);
     setTotalPrice(0);
   }
 
   return (
-    <CartContext.Provider value={{ cart, setCart, totalPrice, setTotalPrice, clearCart, addToCart }}>
+    <CartContext.Provider value={{ cart, setCart, totalPrice, setTotalPrice, clearCart, addToCart, addProductQuantity, restProductQuantity, removeProduct }}>
       {children}
     </CartContext.Provider>
   );
