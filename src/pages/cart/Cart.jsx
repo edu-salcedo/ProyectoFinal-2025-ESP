@@ -1,5 +1,5 @@
 import React from 'react'
-import { UseCart } from '../../hooks/useCart'
+import { UseCart } from '../../hooks/UseCart'
 import './cart.css'
 import Button from 'react-bootstrap/Button'
 export default function Cart() {

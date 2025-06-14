@@ -6,9 +6,9 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
-import './header.css'
-import { UseCart } from '../hooks/useCart';
+import { UseCart } from '../../hooks/UseCart';
 
+import './headerStyle.css';
 
 function Header() {
 
@@ -25,12 +25,12 @@ function Header() {
     return (
         <Navbar expand="lg" className="bg-body-tertiary px-5 ">
             <Container fluid>
-                <Navbar.Brand> <Nav.Link as={Link} to="/">Ecommerce</Nav.Link></Navbar.Brand>
+                <Navbar.Brand> <Nav.Link as={Link} to="/">E-commerce</Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll" >
                     <Nav className="w-75 justify-content-around" style={{ maxHeight: '100px' }} navbarScroll>
-                        <Nav.Link as={Link} to="/" className={location.pathname === "/" ? "active" : ""}>Home</Nav.Link>
-                        <Nav.Link as={Link} to="/products" className={location.pathname === "/products" ? "active" : ""}>Productos</Nav.Link>
+                        <Nav.Link as={Link} to="/" className={location.pathname === "/" ? "actives" : ""}>Home</Nav.Link>
+                        <Nav.Link as={Link} to="/products" className={location.pathname === "/products" ? "actives" : ""}>Productos</Nav.Link>
                         {
 
                             isAuth && (
@@ -51,9 +51,9 @@ function Header() {
                             )
                         }
                         <Nav.Link as={Link} to="/cart">
-                            <button type="button" class="btn btn-primary position-relative">
+                            <button type="button" className="btn btn-primary position-relative">
                                 <i className="bi bi-cart4"> </i>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
                                     {totalQuantity}
                                 </span>
                             </button>

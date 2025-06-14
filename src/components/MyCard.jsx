@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 import './Mycard.css'
 
-function MyCard({ id, title, price, image, addToCart, handleDetail }) {
+function MyCard({ id, title, price, image, handleAdd, handleDetail }) {
 
     return (
         <>
@@ -12,7 +12,7 @@ function MyCard({ id, title, price, image, addToCart, handleDetail }) {
                 <Card.Body className='CardBody'>
                     <Card.Title className='cardtitle '>{title}</Card.Title>
                     <Card.Subtitle> $ {price}</Card.Subtitle>
-                    <Button variant="primary" onClick={addToCart} className='w-50'>carrito</Button>
+                    <Button variant="primary" onClick={handleAdd} className='w-75 mt-2'>Agregar</Button>
 
                 </Card.Body>
             </Card >

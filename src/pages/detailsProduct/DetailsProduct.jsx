@@ -1,8 +1,4 @@
 
-
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import MyCard from '../../components/MyCard'
 import { useEffect, useState } from "react"
 import { Card, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
@@ -19,8 +15,8 @@ function DetailsProduct() {
                 setProduct(data)
                 setLoading(false)
             })
-            .catch(err => {
-                setError(err.message)
+            .catch(error => {
+                setError(error.message)
                 console.log(err)
             })
 

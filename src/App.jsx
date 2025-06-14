@@ -1,6 +1,6 @@
 
 import Products from './pages/product/Products'
-import Header from './components/Header'
+import Header from './components/header/Header'
 import Contact from './pages/contact/Contact'
 import Home from './pages/home/Home'
 import Footer from './components/Footer'
