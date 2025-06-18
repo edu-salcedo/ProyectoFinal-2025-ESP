@@ -7,15 +7,15 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
 import { UseCart } from '../../hooks/UseCart';
+import { UseAuth } from '../../hooks/UseAuth';
 
 import './headerStyle.css';
 
 function Header() {
-
+    const { user, logout } = UseAuth()
     const navigate = useNavigate()
-    const isAuth = localStorage.getItem('auth') === 'true'
-    const logOut = () => {
-        localStorage.removeItem('auth')
+    const handleLogout = () => {
+        logout()
         navigate('/login')
     }
 
@@ -33,9 +33,9 @@ function Header() {
                         <Nav.Link as={Link} to="/products" className={location.pathname === "/products" ? "actives" : ""}>Productos</Nav.Link>
                         {
 
-                            isAuth && (
+                            user && (
                                 <>
-                                    <Nav.Link as={Link} to="/profile/edusalcedo" > Perfil</Nav.Link>
+                                    <Nav.Link as={Link} to="/profile" > Perfil</Nav.Link>
                                     <Nav.Link as={Link} to="/admin"> Admin</Nav.Link>
                                 </>
                             )
@@ -44,10 +44,10 @@ function Header() {
 
                     <Nav className='w-25 justify-content-around'>
                         {
-                            !isAuth ? (
+                            !user ? (
                                 <Nav.Link as={Link} to="/login" className={location.pathname === "/login" ? "active" : ""}> Login</Nav.Link>
                             ) : (
-                                <Button variant='' onClick={logOut} className=''> Salir</Button>
+                                <Button variant='' onClick={handleLogout} className=''> Salir</Button>
                             )
                         }
                         <Nav.Link as={Link} to="/cart">

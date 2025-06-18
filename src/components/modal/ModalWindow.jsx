@@ -7,8 +7,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ModalWindow(props) {
     const navigate = useNavigate();
 
-    const handleGotocart = () => {
-        console.log("navegando al carrito")
+    const handleGotoCart = () => {
         navigate("/cart")
     };
     return (
@@ -25,7 +24,7 @@ export default function ModalWindow(props) {
                 </p>
             </Modal.Body>
             <Modal.Footer className='d-flex justify-content-around'>
-                <Button onClick={handleGotocart} className='bg-success'>ir al carrito</Button>
+                <Button onClick={handleGotoCart} className='bg-success'>ir al carrito</Button>
                 <Button onClick={props.onHide}>close</Button>
             </Modal.Footer>
         </Modal>

@@ -7,7 +7,6 @@ import { Spinner } from 'react-bootstrap';
 import { UseCart } from '../../hooks/UseCart';
 import { useNavigate } from 'react-router-dom';
 import ModalWindow from '../../components/modal/ModalWindow';
-import Button from 'react-bootstrap/Button';
 //rfc
 function Products() {
     const navigate = useNavigate()
@@ -36,11 +35,9 @@ function Products() {
         navigate(`/product/${idItem}`)
     }
     const handleAdd = (product) => {
-        if (product) {
-            addToCart(product)
-            setModalShow(true)
-        }
 
+        addToCart(product)
+        setModalShow(true)
     }
 
     return (

@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom"
+import { UseAuth } from "../../hooks/UseAuth";
 
 function Profile() {
 
-    const { id } = useParams();
+    const { user } = UseAuth();
     return (
         <>
-            <div>welcome  {id}</div>
+            <div>welcome  {user}</div>
         </>
     )
 }

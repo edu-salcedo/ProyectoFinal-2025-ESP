@@ -16,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import DetailsProduct from './pages/detailsProduct/DetailsProduct'
 import { CartProvider } from './context/CartContext'
 import Cart from './pages/cart/cart'
+import { AuthProvider } from './context/AuthContext'
 
 
 
@@ -23,33 +24,35 @@ function App() {
   return (
     <>
       <CartProvider>
-        <Router>
-          <div className='app-container'>
-            <Header />
-            <Routes>
-              <Route path='/' element={<Home />} />
+        <AuthProvider>
+          <Router>
+            <div className='app-container'>
+              <Header />
+              <Routes>
+                <Route path='/' element={<Home />} />
 
-              <Route path='/product/:id' element={<DetailsProduct />} />
-              <Route path='/products' element={<Products />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/cart' element={<Cart />} />
+                <Route path='/product/:id' element={<DetailsProduct />} />
+                <Route path='/products' element={<Products />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/cart' element={<Cart />} />
 
-              <Route path='/profile/:id' element={
+                <Route path='/profile/:id' element={
 
-                <ProtectedRoute> <Profile /></ProtectedRoute>
-              }>
-              </Route>
-              <Route path='/admin' element={
+                  <ProtectedRoute> <Profile /></ProtectedRoute>
+                }>
+                </Route>
+                <Route path='/admin' element={
 
-                <ProtectedRoute> <Admin /></ProtectedRoute>
-              }>
-              </Route>
+                  <ProtectedRoute> <Admin /></ProtectedRoute>
+                }>
+                </Route>
 
-            </Routes>
-            <Footer></Footer>
+              </Routes>
+              <Footer></Footer>
 
-          </div>
-        </Router>
+            </div>
+          </Router>
+        </AuthProvider>
       </CartProvider>
     </>
   )
