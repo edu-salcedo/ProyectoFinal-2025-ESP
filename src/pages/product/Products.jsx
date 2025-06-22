@@ -6,28 +6,28 @@ import { useEffect, useState } from "react"
 import { Spinner } from 'react-bootstrap';
 import { UseCart } from '../../hooks/UseCart';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import ModalWindow from '../../components/modal/ModalWindow';
+
+const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 //rfc
 function Products() {
     const navigate = useNavigate()
     const { addToCart } = UseCart()
-
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [modalShow, setModalShow] = useState(false);
-    useEffect(() => {
-        fetch('https://fakestoreapi.com/products/')
-            .then(response => response.json())
-            .then(data => {
-                setProducts(data)
-                setLoading(false)
-            })
-            .catch(err => {
-                setError(err.message)
-                console.log(err)
-            })
 
+
+    const fetchProducts = () => {
+        axios.get(API_URL)
+            .then(res => { setProducts(res.data); setLoading(false); })
+
+            .catch(console.error);
+    };
+    useEffect(() => {
+        fetchProducts();
     }, []);
 
     const handleDetail = (idItem) => {
@@ -35,7 +35,6 @@ function Products() {
         navigate(`/product/${idItem}`)
     }
     const handleAdd = (product) => {
-
         addToCart(product)
         setModalShow(true)
     }

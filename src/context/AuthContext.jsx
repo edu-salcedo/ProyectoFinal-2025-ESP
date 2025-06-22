@@ -20,12 +20,13 @@ export function AuthProvider({ children }) {
 
     const login = (username, password) => {
         if (username === "admin" && password === "1234") {
+
             const fakeToken = "dG9rZW5GYWxzbzEyMzQ=";
             setToken(fakeToken);
             setUser(username);
             localStorage.setItem("token", fakeToken);
             localStorage.setItem("user", username);
-            console.log("   login in");
+
             return true;
         }
         return false;

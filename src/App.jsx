@@ -13,10 +13,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Profile from './pages/profile/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
-import DetailsProduct from './pages/detailsProduct/DetailsProduct'
+import DetailsProduct from './pages/product/DetailsProduct'
 import { CartProvider } from './context/CartContext'
-import Cart from './pages/cart/cart'
 import { AuthProvider } from './context/AuthContext'
+import Cart from './pages/cart/Cart'
+import ProductList from './pages/admin/manageProduct/ProductList'
 
 
 
@@ -35,8 +36,9 @@ function App() {
                 <Route path='/products' element={<Products />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/cart' element={<Cart />} />
+                <Route path='/productList' element={<ProductList />} />
 
-                <Route path='/profile/:id' element={
+                <Route path='/profile' element={
 
                   <ProtectedRoute> <Profile /></ProtectedRoute>
                 }>

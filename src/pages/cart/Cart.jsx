@@ -34,7 +34,7 @@ export default function Cart() {
                             {cart.map((product) => (
                                 <tr key={product.id} className=''>
                                     <th scope=""><img src={product.image} className='cart-img' alt="" /></th>
-                                    <td>{product.title}</td>
+                                    <td>{product.name}</td>
                                     <td>${product.price.toFixed(2)}</td>
                                     <td>{product.quantity}</td>
                                     <td className='text-center'>

@@ -37,6 +37,7 @@ function Header() {
                                 <>
                                     <Nav.Link as={Link} to="/profile" > Perfil</Nav.Link>
                                     <Nav.Link as={Link} to="/admin"> Admin</Nav.Link>
+                                    <Nav.Link as={Link} to="/productList">Lista productos</Nav.Link>
                                 </>
                             )
                         }
