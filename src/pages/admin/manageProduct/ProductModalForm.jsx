@@ -32,7 +32,12 @@ export default function ProductModalForm({ product, show, onHide }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newProduct = { name, description, price: Number(price), quantity: Number(quantity) };
+        const newProduct = {
+            name,
+            description,
+            price: Number(price),
+            quantity: Number(quantity)
+        };
 
         try {
             if (product) {

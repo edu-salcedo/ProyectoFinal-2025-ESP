@@ -7,7 +7,7 @@ import { Spinner } from 'react-bootstrap';
 import { UseCart } from '../../hooks/UseCart';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ModalWindow from '../../components/modal/ModalWindow';
+import ConfirmModal from '../../components/modal/ConfirmModal';
 
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 //rfc
@@ -20,10 +20,10 @@ function Products() {
     const [modalShow, setModalShow] = useState(false);
 
 
+
     const fetchProducts = () => {
         axios.get(API_URL)
             .then(res => { setProducts(res.data); setLoading(false); })
-
             .catch(console.error);
     };
     useEffect(() => {
@@ -37,6 +37,9 @@ function Products() {
     const handleAdd = (product) => {
         addToCart(product)
         setModalShow(true)
+    }
+    const handleAddToCart = () => {
+        navigate("/cart")
     }
 
     return (
@@ -56,7 +59,15 @@ function Products() {
 
             )}
 
-            <ModalWindow show={modalShow} onHide={() => setModalShow(false)} />
+            <ConfirmModal
+                show={modalShow}
+                tittle="Agregar al carrito"
+                message="Agregaste al carrito"
+                confirmText="ir al carrito"
+                onConfirm={handleAddToCart}
+                onHide={() => setModalShow(false)}
+
+            />
         </>
     )
 }

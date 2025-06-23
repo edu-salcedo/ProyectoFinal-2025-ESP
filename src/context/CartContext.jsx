@@ -5,6 +5,7 @@ export const CartContext = createContext()
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState();
 
   const addToCart = (product) => {
     // buscamos si el producto ya existe en el carrito
