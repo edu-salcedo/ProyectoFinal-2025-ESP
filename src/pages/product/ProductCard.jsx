@@ -1,9 +1,9 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
-import './Mycard.css'
 
-function MyCard({ id, name, price, image, handleAdd, handleDetail }) {
+import './productStyle.css'
+function ProductCard({ id, name, price, image, handleAdd, handleDetail }) {
 
     return (
         <>
@@ -20,4 +20,4 @@ function MyCard({ id, name, price, image, handleAdd, handleDetail }) {
     );
 }
 
-export default MyCard;
+export default ProductCard;

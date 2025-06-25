@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { Card, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import "./detailsproduct.css"
+import "./productStyle.css"
 
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 
