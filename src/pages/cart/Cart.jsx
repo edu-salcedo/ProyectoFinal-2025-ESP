@@ -1,7 +1,8 @@
-import React from 'react'
+
 import { UseCart } from '../../hooks/UseCart'
-import './cart.css'
 import Button from 'react-bootstrap/Button'
+import './cart.css'
+
 export default function Cart() {
     const { cart, clearCart, addProductQuantity, restProductQuantity, removeProduct } = UseCart()
 

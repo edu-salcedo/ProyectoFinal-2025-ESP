@@ -4,6 +4,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { useApi } from '../../../hooks/useApi';
 
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 
@@ -13,6 +14,7 @@ export default function ProductModalForm({ product, show, onHide }) {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState(1);
+    const { create, update, refetch } = useApi(API_URL);
 
     useEffect(() => {
         if (product) {
@@ -42,10 +44,11 @@ export default function ProductModalForm({ product, show, onHide }) {
         try {
             if (product) {
                 // si hay un producto  se edita
-                await axios.put(`${API_URL}/${product.id}`, newProduct);
+                await update(product.id, newProduct);
+                // Refrescar la lista de productos después de actualizar
             } else {
                 // si no hay producto se crea uno nuevo
-                await axios.post(API_URL, newProduct);
+                await create(newProduct);
             }
             onHide();
         } catch (err) {

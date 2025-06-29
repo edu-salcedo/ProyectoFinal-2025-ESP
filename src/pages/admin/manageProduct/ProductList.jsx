@@ -1,57 +1,58 @@
 
+
 import { useEffect, useState } from 'react';
+import { Table, Button } from 'react-bootstrap';
 import axios from 'axios';
 import ProductModalForm from './ProductModalForm'
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
-
+import { useApi } from '../../../hooks/useApi';
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 
 export default function ProductList() {
-  const [productList, setProductList] = useState([]);
+
   const [updateProduct, setUpdateProduct] = useState(null);
   const [showModalForm, setShowModalForm] = useState(false);
   const [ShowModalConfirm, setShowModalConfirm] = useState(false);
   const [idItem, setIdItem] = useState();
 
-  const fetchProducts = () => {
-    axios.get(API_URL)
-      .then(res => setProductList(res.data))
-      .catch(console.error);
+
+  const { data: productList, loading, error, remove, refetch } = useApi(API_URL);
+  if (loading) return <p>Cargando...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!productList) return <p>No se encontró el producto</p>;
+
+
+  const handleCreate = () => {
+    setUpdateProduct(null);
+    setShowModalForm(true);
   };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const handleDelete = () => {
-    axios.delete(`${API_URL}/${idItem}`)
-      .then(() => fetchProducts())
-      .catch(console.error);
-    setShowModalConfirm(false)
-  };
-
 
   const handleUpdate = (product) => {
     setUpdateProduct(product);
     setShowModalForm(true);
   };
-  const handleAdd = () => {
-    setUpdateProduct(null);
-    setShowModalForm(true);
+
+  const handleDelete = async () => {
+    try {
+      await remove(idItem);
+
+    } catch (err) {
+      console.error('Error al eliminar producto:', err.message);
+    }
+    refetch();
+    setShowModalConfirm(false)
   };
 
   const handleFormClose = () => {
     setShowModalForm(false);
     setUpdateProduct(null);
-    fetchProducts();
+    refetch();
   };
 
   return (
     <div>
       <h2>Productos</h2>
-      <Button variant="primary" className="mb-3" onClick={handleAdd}>
+      <Button variant="primary" className="mb-3" onClick={handleCreate}>
         Agregar Producto
       </Button>
       <ProductModalForm product={updateProduct} show={showModalForm} onHide={handleFormClose} />

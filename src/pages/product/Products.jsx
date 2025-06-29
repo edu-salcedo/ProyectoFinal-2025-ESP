@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ProductCard from './ProductCard'
 import ConfirmModal from '../../components/modal/ConfirmModal';
+import { useApi } from '../../hooks/useApi';
 
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 //rfc
@@ -13,27 +14,19 @@ function Products() {
     const navigate = useNavigate();
     const { addToCart } = UseCart();
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const fetchProducts = () => {
-        axios.get(API_URL)
-            .then(res => {
-                setProducts(res.data);
-                setFilteredProducts(res.data);
-                setLoading(false);
-            })
-            .catch(err => {
-                setError("no se pudo cargar los productos");
-                setLoading(false);
-            });
-    };
+
+    const { data: productList, loading, error } = useApi(API_URL);
+
     useEffect(() => {
-        fetchProducts();
-    }, []);
+        if (productList) {
+            setProducts(productList);
+            setFilteredProducts(productList);
+        }
+    }, [productList]);
 
     const handleInputChange = (e) => {
         const value = e.target.value;
