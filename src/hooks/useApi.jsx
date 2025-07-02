@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 export function useApi(url, options = {}, autoFetch = true) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(autoFetch);
     const [error, setError] = useState(null);
-
-    const fetchData = async () => {
+    // uso el hook  useCallbak por el warning React Fast Refresh y para no tener renderizados innecesarios
+    const fetchData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -17,7 +17,7 @@ export function useApi(url, options = {}, autoFetch = true) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [url, options]);
 
     useEffect(() => {
         if (autoFetch) {
@@ -25,32 +25,32 @@ export function useApi(url, options = {}, autoFetch = true) {
         }
     }, [url]);
 
-    const create = async (newData) => {
+    const create = useCallback(async (newData) => {
         try {
             const response = await axios.post(url, newData);
             return response.data;
         } catch (err) {
             throw err;
         }
-    };
+    }, [url]);
 
-    const update = async (id, updatedData) => {
+    const update = useCallback(async (id, updatedData) => {
         try {
             const response = await axios.put(`${url}/${id}`, updatedData);
             return response.data;
         } catch (err) {
             throw err;
         }
-    };
+    }, [url]);
 
-    const remove = async (id) => {
+    const remove = useCallback(async (id) => {
         try {
             await axios.delete(`${url}/${id}`);
             return true;
         } catch (err) {
             throw err;
         }
-    };
+    }, [url]);
 
     return { data, loading, error, refetch: fetchData, create, update, remove };
 }

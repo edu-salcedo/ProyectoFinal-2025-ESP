@@ -1,7 +1,7 @@
 
 
 import { useEffect, useState } from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import ProductModalForm from './ProductModalForm'
 import ConfirmModal from '../../../components/modal/ConfirmModal';
@@ -15,8 +15,8 @@ export default function ProductList() {
   const [ShowModalConfirm, setShowModalConfirm] = useState(false);
   const [idItem, setIdItem] = useState();
 
-
   const { data: productList, loading, error, remove, refetch } = useApi(API_URL);
+
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!productList) return <p>No se encontró el producto</p>;
@@ -43,10 +43,15 @@ export default function ProductList() {
     setShowModalConfirm(false)
   };
 
-  const handleFormClose = () => {
+  const hadleSave = () => {
+    refetch();
     setShowModalForm(false);
     setUpdateProduct(null);
-    refetch();
+  }
+  const handleFormClose = () => {
+    setUpdateProduct(null);
+    setShowModalForm(false);
+
   };
 
   return (
@@ -55,7 +60,7 @@ export default function ProductList() {
       <Button variant="primary" className="mb-3" onClick={handleCreate}>
         Agregar Producto
       </Button>
-      <ProductModalForm product={updateProduct} show={showModalForm} onHide={handleFormClose} />
+      <ProductModalForm product={updateProduct} show={showModalForm} onHide={handleFormClose} onSave={hadleSave} />
 
       <Table>
         <thead>

@@ -18,7 +18,6 @@ function Products() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-
     const { data: productList, loading, error } = useApi(API_URL);
 
     useEffect(() => {
@@ -47,41 +46,39 @@ function Products() {
     const handleGoToCart = () => {
         navigate("/cart");
     }
-
+    if (loading) return <div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>;
+    if (error) return <p>{error}</p>;
     return (
         <>
-            {error ? (<p>{error}</p>) : (
-                loading ? (<div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>)
-                    : (
-                        <>
-                            <Form className="p-3 w-25 m-auto ">
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Buscar productos..."
-                                    value={searchTerm}
-                                    onChange={handleInputChange}
+
+            <>
+                <Form className="p-3 w-25 m-auto ">
+                    <Form.Control
+                        type="text"
+                        placeholder="Buscar productos..."
+                        value={searchTerm}
+                        onChange={handleInputChange}
+                    />
+                </Form >
+
+                <Row className='p-3 gap-4 w-100'>
+                    {filteredProducts.length === 0 ? (
+                        <p className="text-center w-100">No se encontraron productos.</p>
+                    ) : (
+
+                        filteredProducts.map(product => (
+                            <Col key={product.id} className=' d-flex justify-content-center'>
+                                <ProductCard
+                                    {...product}
+                                    handleAdd={() => { handleAddToCart(product) }}
+                                    handleDetail={() => { handleDetailProduct(product.id) }}
                                 />
-                            </Form>
+                            </Col>
+                        ))
+                    )}
+                </Row>
+            </>
 
-                            <Row className='p-3 gap-4 w-100'>
-                                {filteredProducts.length === 0 ? (
-                                    <p className="text-center w-100">No se encontraron productos.</p>
-                                ) : (
-
-                                    filteredProducts.map(product => (
-                                        <Col key={product.id} className=' d-flex justify-content-center'>
-                                            <ProductCard
-                                                {...product}
-                                                handleAdd={() => { handleAddToCart(product) }}
-                                                handleDetail={() => { handleDetailProduct(product.id) }}
-                                            />
-                                        </Col>
-                                    ))
-                                )}
-                            </Row>
-                        </>
-                    )
-            )}
 
             <ConfirmModal
                 show={modalShow}

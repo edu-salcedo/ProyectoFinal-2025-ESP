@@ -8,13 +8,14 @@ import { useApi } from '../../../hooks/useApi';
 
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 
-export default function ProductModalForm({ product, show, onHide }) {
+export default function ProductModalForm({ product, show, onHide, onSave }) {
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState(1);
-    const { create, update, refetch } = useApi(API_URL);
+    const [image, setImage] = useState('');
+    const { create, update } = useApi(API_URL);
 
     useEffect(() => {
         if (product) {
@@ -22,11 +23,13 @@ export default function ProductModalForm({ product, show, onHide }) {
             setPrice(product.price);
             setQuantity(product.quantity || 1);
             setDescription(product.description)
+            setImage(product.image || '');
         } else {
             setName('');
             setPrice('');
             setQuantity(1)
             setDescription('')
+            setImage('');
         }
     }, [product, show]);
     //si el estado de producto o mostrar cambia
@@ -37,6 +40,7 @@ export default function ProductModalForm({ product, show, onHide }) {
         const newProduct = {
             name,
             description,
+            image,
             price: Number(price),
             quantity: Number(quantity)
         };
@@ -45,12 +49,11 @@ export default function ProductModalForm({ product, show, onHide }) {
             if (product) {
                 // si hay un producto  se edita
                 await update(product.id, newProduct);
-                // Refrescar la lista de productos después de actualizar
             } else {
                 // si no hay producto se crea uno nuevo
                 await create(newProduct);
             }
-            onHide();
+            onSave();
         } catch (err) {
             console.error('Error al guardar producto:', err);
         }
@@ -65,7 +68,7 @@ export default function ProductModalForm({ product, show, onHide }) {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3 text-center" controlId="exampleForm.ControlInput1">
                             <Form.Label>nombre</Form.Label>
                             <Form.Control
                                 type="text"
@@ -79,6 +82,14 @@ export default function ProductModalForm({ product, show, onHide }) {
                                 type="text"
                                 placeholder="descripción del producto"
                                 value={description}
+                                onChange={e => setDescription(e.target.value)}
+                                autoFocus
+                            />
+                            <Form.Label>Url imagen</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="url de la imagen"
+                                value={image}
                                 onChange={e => setDescription(e.target.value)}
                                 autoFocus
                             />
