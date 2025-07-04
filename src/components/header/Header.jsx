@@ -30,14 +30,14 @@ function Header() {
                 <Navbar.Collapse id="navbarScroll" >
                     <Nav className="w-75 justify-content-around" style={{ maxHeight: '100px' }} navbarScroll>
                         <Nav.Link as={Link} to="/" className={location.pathname === "/" ? "actives" : ""}>Home</Nav.Link>
-                        <Nav.Link as={Link} to="/products" className={location.pathname === "/products" ? "actives" : ""}>Productos</Nav.Link>
+                        <Nav.Link as={Link} to="/productos" className={location.pathname === "/products" ? "actives" : ""}>Productos</Nav.Link>
                         {
 
                             user && (
                                 <>
-                                    <Nav.Link as={Link} to="/profile" > Perfil</Nav.Link>
+                                    <Nav.Link as={Link} to="/perfil" > Perfil</Nav.Link>
                                     <Nav.Link as={Link} to="/admin"> Admin</Nav.Link>
-                                    <Nav.Link as={Link} to="/productList">Lista productos</Nav.Link>
+                                    <Nav.Link as={Link} to="/lista-productos">Lista productos</Nav.Link>
                                 </>
                             )
                         }
@@ -51,7 +51,7 @@ function Header() {
                                 <Button variant='' onClick={handleLogout} className=''> Salir</Button>
                             )
                         }
-                        <Nav.Link as={Link} to="/cart">
+                        <Nav.Link as={Link} to="/carrito">
                             <button type="button" className="btn btn-primary position-relative">
                                 <i className="bi bi-cart4"> </i>
                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">

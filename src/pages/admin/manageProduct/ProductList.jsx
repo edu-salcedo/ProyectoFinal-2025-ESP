@@ -1,8 +1,7 @@
 
 
-import { useEffect, useState } from 'react';
-import { Table, Button, Modal } from 'react-bootstrap';
-import axios from 'axios';
+import { useState } from 'react';
+import { Table, Button, Spinner } from 'react-bootstrap';
 import ProductModalForm from './ProductModalForm'
 import ConfirmModal from '../../../components/modal/ConfirmModal';
 import { useApi } from '../../../hooks/useApi';
@@ -17,8 +16,8 @@ export default function ProductList() {
 
   const { data: productList, loading, error, remove, refetch } = useApi(API_URL);
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>;
+  if (error) return <p>{error}</p>;
   if (!productList) return <p>No se encontró el producto</p>;
 
 
@@ -67,11 +66,12 @@ export default function ProductList() {
           <tr>
             <th scope="col"></th>
             <th scope="col">Id</th>
-            <th scope="col">Product</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">cantidad</th>
+            <th scope="col">categoria</th>
             <th scope="col"></th>
-            <th scope="col">Total</th>
+
           </tr>
         </thead>
         <tbody>
@@ -82,11 +82,11 @@ export default function ProductList() {
               <td>{product.name}</td>
               <td>${product.price.toFixed(2)}</td>
               <td>{product.quantity}</td>
+              <td>{product.category}</td>
               <td className='text-center'>
                 <Button variant='info' className='btn-quantity ' onClick={() => { handleUpdate(product) }}  ><i className="bi bi-pencil"></i></Button>
                 <Button variant='danger' className='btn-quantity ' onClick={() => { setShowModalConfirm(true); setIdItem(product.id) }}  ><i className="bi bi-trash3"></i></Button>
               </td>
-              <td>${(product.price * product.quantity).toFixed(2)}</td>
             </tr>
           ))}
         </tbody>

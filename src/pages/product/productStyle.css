@@ -2,7 +2,6 @@
   .product-img {
       width: 20rem;
       margin: auto;
-
   }
 
   .col {
@@ -37,16 +36,29 @@
       cursor: pointer;
   }
 
+  .cardimg:hover {
+      transform: scale(1.05);
+      transition: transform 0.4s ease;
+  }
+
   .cardtitle {
-      font-size: 1rem !important;
-      width: 100%;
-      height: 4rem;
-      overflow: hidden;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 10px;
+  }
+
+  .cardtext {
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 5px;
+      color: rgb(138, 135, 135);
 
   }
 
   .CardBody {
-      display: grid;
-      justify-items: center;
-
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
   }

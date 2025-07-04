@@ -32,13 +32,14 @@ function App() {
               <Routes>
                 <Route path='/' element={<Home />} />
 
-                <Route path='/product/:id' element={<DetailsProduct />} />
-                <Route path='/products' element={<Products />} />
+                <Route path='/productos' element={<Products />} />
+                <Route path='/productos/categoria' element={<Products />} />
+                <Route path='/producto/:id' element={<DetailsProduct />} />
                 <Route path='/login' element={<Login />} />
-                <Route path='/cart' element={<Cart />} />
-                <Route path='/productList' element={<ProductList />} />
+                <Route path='/carrito' element={<Cart />} />
+                <Route path='/lista-productos' element={<ProductList />} />
 
-                <Route path='/profile' element={
+                <Route path='/perfil' element={
 
                   <ProtectedRoute> <Profile /></ProtectedRoute>
                 }>
