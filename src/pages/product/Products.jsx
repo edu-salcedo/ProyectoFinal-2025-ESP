@@ -1,10 +1,12 @@
 
-import { Form, Col, Row, Spinner, Dropdown } from 'react-bootstrap';
+import { Form, Col, Row, Spinner } from 'react-bootstrap';
 import { useEffect, useState } from "react"
 import { UseCart } from '../../hooks/UseCart';
 import { useNavigate } from 'react-router-dom';
+import DropdownCategory from '../../components/Dropdown';
 import ProductCard from './ProductCard'
 import ConfirmModal from '../../components/modal/ConfirmModal';
+import PaginationIU from '../../components/Pagination';
 import { useApi } from '../../hooks/useApi';
 import { useSearchParams } from 'react-router-dom';
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
@@ -17,8 +19,12 @@ function Products() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchParams] = useSearchParams();
+    const [currentPage, setCurrentPage] = useState(1);
+    //contante para definir la cantidad de productos por página
+    const productsPerPage = 6;
 
-    const category = searchParams.get('categoria');
+    // useSearchParams para obtener el parámetro de categoría de la URL
+    const categoryParam = searchParams.get('categoria');
 
     const { data: productList, loading, error } = useApi(API_URL);
     // useApi para traer todos los productos de la API
@@ -27,15 +33,16 @@ function Products() {
         if (productList) {
             setProducts(productList);
             setFilteredProducts(productList);
-            if (category) {
+            if (categoryParam) {
                 const filtered = products.filter(product =>
-                    product.category.toLowerCase() === category.toLowerCase()
+                    product.category.toLowerCase() === categoryParam.toLowerCase()
                 );
                 setFilteredProducts(filtered);
             }
         }
-    }, [productList, category]);
+    }, [productList, categoryParam]);
 
+    //fución para manejar el cambio de input en el campo de búsqueda
     const handleInputChange = (e) => {
         const value = e.target.value;
         setSearchTerm(value);
@@ -45,27 +52,39 @@ function Products() {
         setFilteredProducts(filtered);
     }
 
+    // función para manejar el clic en el botón de detalle del producto
     const handleDetailProduct = (idItem) => {
         navigate(`/producto/${idItem}`);
     }
+
+    // función para manejar el clic en el botón de agregar al carrito
     const handleAddToCart = (product) => {
         addToCart(product);
         setModalShow(true);
     }
+
+    // función para manejar el clic en el botón de ir al carrito
     const handleGoToCart = () => {
         navigate("/carrito");
     }
 
+    // función para manejar la selección de categoría desde el dropdown
+    // se filtran los productos por la categoría seleccionada
     const handleSelectCategory = (selectedCategory) => {
         setSearchTerm('');
-
         const filtered = products.filter(product =>
             product.category.toLowerCase() === selectedCategory.toLowerCase()
-
         );
         setFilteredProducts(filtered);
         navigate(`/productos?categoria=${selectedCategory}`);
     }
+
+
+    // Calculamos los índices de los productos a mostrar en la página actual
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
     if (loading) return <div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>;
     if (error) return <p>{error}</p>;
@@ -73,7 +92,7 @@ function Products() {
     return (
         <>
             <Row className='w-100 mt-3 p-0'>
-                <Col xs={12} md={2} lg={3} className=' border rounded-2 border-dark-subtle'>
+                <Col xs={12} md={2} lg={3} className=' border rounded-2 border-dark-subtle pt-5'>
 
                     <Form className="p-3 m-auto w-100">
                         <Form.Control
@@ -84,27 +103,17 @@ function Products() {
                         />
                     </Form >
 
-                    <Dropdown onSelect={handleSelectCategory}>
-                        <Dropdown.Toggle variant="light" className='w-100'>
-                            Seleccioná una categoría
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu className='w-100'>
-                            <Dropdown.Item eventKey="Moda">Moda</Dropdown.Item>
-                            <Dropdown.Item eventKey="herramientas">Herramientas</Dropdown.Item>
-                            <Dropdown.Item eventKey="televisores">Televisores</Dropdown.Item>
-                            <Dropdown.Item eventKey="climatización">Climatización</Dropdown.Item>
-                            <Dropdown.Item eventKey="notebooks">Notebooks</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    {/* componente  Dropdown para seleccionar categoría */}
+                    <h5 className='text-center mt-3'>Categorías</h5>
+                    <DropdownCategory category={categoryParam} onSelectCategory={handleSelectCategory} />
                 </Col>
 
                 <Col xs={12} md={10} lg={9} className='text-center'>
                     <Row className='p-3 gap-4 w-100'>
-                        {filteredProducts.length === 0 ? (
+                        {currentProducts.length === 0 ? (
                             <p className="text-center w-100">No se encontraron productos.</p>
                         ) : (
-                            filteredProducts.map(product => (
+                            currentProducts.map(product => (
                                 <Col key={product.id} className=' d-flex justify-content-center'>
                                     <ProductCard
                                         {...product}
@@ -115,12 +124,18 @@ function Products() {
                             ))
                         )}
                     </Row>
+                    {totalPages > 1 && (
+                        <PaginationIU
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={setCurrentPage}
+                        />
+                    )}
 
                 </Col>
             </Row>
 
-
-
+            {/* Modal de confirmación  se agregó al carrito */}
             <ConfirmModal
                 show={modalShow}
                 tittle="Agregar al carrito"
