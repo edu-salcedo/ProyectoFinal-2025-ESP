@@ -5,17 +5,20 @@ import toolsCategory from "../../assets/toolsCategory.gif"
 import climaCategory from "../../assets/climaCategory.png"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components";
+import TestForm from "../prueva"
 
 export default function Home() {
 
     return (
         <>
             <Image src={banner} alt="banner" className=" mw-100 mt-5" />
+            <h2 className="w-25 m-auto  fs-1 fw-bold mt-3">Categorias</h2>
             <div className=" d-flex flex-wrap justify-content-around  gap-2 mt-5">
                 <CategoryCard image={tvCategory} name="televisores" />
                 <CategoryCard image={toolsCategory} name="herramientas" />
                 <CategoryCard image={climaCategory} name="climatización" />
             </div>
+
         </>
     )
 }
@@ -33,7 +36,7 @@ function CategoryCard({ image, name }) {
     );
 }
 const StyledImage = styled.img`
-    width: 25rem;                
+    width: 23rem;                
     height: auto;
     object-fit: cover; 
     border-radius: 15px;

@@ -1,17 +1,4 @@
   /* estilos para la detalle de productos */
-  .product-img {
-      width: 20rem;
-      margin: auto;
-  }
-
-  .col {
-      text-align: center;
-  }
-
-  .img-container {
-      display: flex;
-      align-items: center;
-  }
 
   .details-content {
       padding: 5rem;
@@ -24,16 +11,17 @@
   .price-product {
       font-size: 2rem;
       font-weight: 800;
+
   }
 
   /* estilos para la card de productos */
   .cardimg {
-      width: 100%;
-      height: 50%;
-      object-fit: contain;
-      background-color: white;
       margin-top: 10px;
+      height: 200px;
+      object-fit: contain;
+      background-color: none;
       cursor: pointer;
+
   }
 
   .cardimg:hover {
@@ -61,4 +49,30 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+  }
+
+
+  /* estilos para la pagina productos */
+
+  .aside {
+      background-color: #eeeef0;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      height: 70%;
+      z-index: 1;
+      margin-top: 3rem;
+  }
+
+
+
+  @media screen and (max-width: 768px) {
+      .aside {
+          position: relative;
+          height: auto;
+          width: 100%;
+          padding: 1rem;
+          margin: 0;
+      }
   }

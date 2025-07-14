@@ -1,11 +1,8 @@
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
-
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import { UseCart } from '../../hooks/UseCart';
 import { UseAuth } from '../../hooks/UseAuth';
 
@@ -22,8 +19,20 @@ function Header() {
     const { cart } = UseCart()
     const totalQuantity = cart.reduce((acu, product) => acu + product.quantity, 0)
 
+    const handleCartClick = () => {
+        if (user) {
+            navigate('/carrito');
+        } else {
+            toast.warn('Inicia sesión para ver al carrito', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            navigate('/login');
+        }
+    };
+
     return (
-        <Navbar expand="lg" className="bg-body-tertiary px-5 ">
+        <Navbar expand="lg" className="bg-body-tertiary px-5 sticky-top" >
             <Container fluid>
                 <Navbar.Brand> <Nav.Link as={Link} to="/">E-commerce</Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
@@ -35,7 +44,6 @@ function Header() {
 
                             user && (
                                 <>
-                                    <Nav.Link as={Link} to="/perfil" > Perfil</Nav.Link>
                                     <Nav.Link as={Link} to="/admin"> Admin</Nav.Link>
                                     <Nav.Link as={Link} to="/lista-productos">Lista productos</Nav.Link>
                                 </>
@@ -51,7 +59,7 @@ function Header() {
                                 <Button variant='' onClick={handleLogout} className=''> Salir</Button>
                             )
                         }
-                        <Nav.Link as={Link} to="/carrito">
+                        <Nav.Link onClick={handleCartClick}>
                             <button type="button" className="btn btn-primary position-relative">
                                 <i className="bi bi-cart4"> </i>
                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">

@@ -16,6 +16,7 @@ export default function DropdownCategory({ category, onSelectCategory }) {
         }
     }, [category]);
 
+    // Función para manejar el toggle del dropdown muestra u oculta el menú
     const handleToggle = () => {
         setShow(prev => !prev);
     };
@@ -34,11 +35,12 @@ export default function DropdownCategory({ category, onSelectCategory }) {
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="w-100">
-                <Dropdown.Item eventKey="Moda">Moda</Dropdown.Item>
-                <Dropdown.Item eventKey="Herramientas">Herramientas</Dropdown.Item>
-                <Dropdown.Item eventKey="Televisores">Televisores</Dropdown.Item>
+                <Dropdown.Item eventKey="Celulares">Celulares</Dropdown.Item>
                 <Dropdown.Item eventKey="Climatización">Climatización</Dropdown.Item>
+                <Dropdown.Item eventKey="Herramientas">Herramientas</Dropdown.Item>
                 <Dropdown.Item eventKey="Notebooks">Notebooks</Dropdown.Item>
+                <Dropdown.Item eventKey="Moda">Moda</Dropdown.Item>
+                <Dropdown.Item eventKey="Televisores">Televisores</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     );

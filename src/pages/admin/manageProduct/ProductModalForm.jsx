@@ -1,9 +1,10 @@
+import { Button, Form, Modal } from 'react-bootstrap';
 
 import { useEffect, useState } from 'react';
 
-import { Button, Form, Modal, Dropdown } from 'react-bootstrap';
-
 import { useApi } from '../../../hooks/useApi';
+
+import DropdownCategory from '../../../components/Dropdown';
 
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
 
@@ -17,49 +18,72 @@ export default function ProductModalForm({ product, show, onHide, onSave }) {
     const [quantity, setQuantity] = useState(1);
     const { create, update } = useApi(API_URL);
 
+    const [errors, setErrors] = useState({ name: false, category: false, quantity: false, price: false });
+
+
     useEffect(() => {
         if (product) {
             setName(product.name);
-            setPrice(product.price);
+            setDescription(product.description)
             setImage(product.image || '');
             setCategory(product.category || '');
             setQuantity(product.quantity || 1);
-            setDescription(product.description)
+            setPrice(product.price);
         } else {
             setName('');
-            setPrice('');
+            setDescription('')
             setImage('');
             setCategory('');
             setQuantity(1)
-            setDescription('')
+            setPrice('');
         }
     }, [product, show]);
     //si el estado de producto o mostrar cambia
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
         const newProduct = {
             name,
             description,
             image,
             category,
+            quantity: Number(quantity),
             price: Number(price),
-            quantity: Number(quantity)
         };
+
+        const InputErrors = {
+            //si el name sin espacios es  ugual  a '', hay un error
+            name: name.trim() === '',
+            category: category.trim() === '',
+            //si el numero es menor a 0  o no ingresa un numero, hay error
+            quantity: Number(quantity) <= 0 || isNaN(quantity),
+            price: Number(price) <= 0 || isNaN(price)
+        };
+
+        setErrors(InputErrors);
+
+        //Objects.values() Convierte el objeto en un arreglo de sus valoresn y busca con .some()si alguno es true        
+        const hasErrors = Object.values(InputErrors).some(Boolean);
+
+        if (hasErrors) return;
 
         try {
             if (product) {
                 // si hay un producto  se edita
                 await update(product.id, newProduct);
+                onSave("update");
             } else {
                 // si no hay producto se crea uno nuevo
                 await create(newProduct);
+                onSave("create");
             }
-            onSave();
         } catch (err) {
             console.error('Error al guardar producto:', err);
         }
     };
+
+
 
     const handleSelectCategory = (category) => {
         setCategory(category);
@@ -74,78 +98,111 @@ export default function ProductModalForm({ product, show, onHide, onSave }) {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3 text-center" controlId="exampleForm.ControlInput1">
-                            <Form.Label>nombre</Form.Label>
+                        {/* Nombre */}
+                        <Form.Group controlId="formName">
+                            <Form.Label>Nombre</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="nombre del producto"
                                 value={name}
-                                onChange={e => setName(e.target.value)}
-                                autoFocus
+                                onChange={e => {
+                                    setName(e.target.value);
+                                    if (errors.name && e.target.value.trim() !== '') {
+                                        setErrors(prev => ({ ...prev, name: false }));
+                                    }
+                                }}
+                                isInvalid={errors.name}
+
                             />
-                            <Form.Label>descripción</Form.Label>
+                            <Form.Control.Feedback type="invalid">
+                                El nombre es obligatorio.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+
+                        {/* Descripción */}
+                        <Form.Group controlId="formDescription">
+                            <Form.Label>Descripción</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="descripción del producto"
                                 value={description}
                                 onChange={e => setDescription(e.target.value)}
-                                autoFocus
                             />
-                            <Form.Label>Url imagen</Form.Label>
+                        </Form.Group>
+
+                        {/* Imagen */}
+                        <Form.Group controlId="formImage">
+                            <Form.Label>URL Imagen</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="url de la imagen"
                                 value={image}
-                                onChange={e => setCategory(e.target.value)}
-                                autoFocus
+                                onChange={e => setImage(e.target.value)}
                             />
+                        </Form.Group>
 
-                            <Form.Group className="mt-3">
-                                <Form.Label>Categoría</Form.Label>
-                                <Dropdown onSelect={handleSelectCategory}>
-                                    <Dropdown.Toggle variant="light">
-                                        {category || "Seleccioná una categoría"}
-                                    </Dropdown.Toggle>
+                        {/* Categoría */}
+                        <Form.Group controlId="formCategory" className="mt-3">
+                            <Form.Label>Categoría</Form.Label>
+                            <div className="w-75">
+                                <DropdownCategory category={category} onSelectCategory={handleSelectCategory} className={`form-control ${errors.category ? 'is-invalid' : ''}`} />
+                                {errors.category && (
+                                    <div className="invalid-feedback d-block">
+                                        La categoría es obligatoria.
+                                    </div>
+                                )}
+                            </div></Form.Group>
 
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item eventKey="Moda">Moda</Dropdown.Item>
-                                        <Dropdown.Item eventKey="herramientas">Herramientas</Dropdown.Item>
-                                        <Dropdown.Item eventKey="televisores">Televisores</Dropdown.Item>
-                                        <Dropdown.Item eventKey="climatización">Climatización</Dropdown.Item>
-                                        <Dropdown.Item eventKey="notebooks">Notebooks</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </Form.Group>
-
+                        {/* Cantidad */}
+                        <Form.Group controlId="formQuantity">
                             <Form.Label>Cantidad</Form.Label>
                             <Form.Control
-                                type="Number"
-                                placeholder=""
+                                type="number"
                                 value={quantity}
-                                onChange={e => setQuantity(e.target.value)}
-                                autoFocus
+                                onChange={e => {
+                                    setQuantity(e.target.value);
+                                    if (errors.quantity && Number(e.target.value) > 0) {
+                                        setErrors(prev => ({ ...prev, quantity: false }));
+                                    }
+                                }}
+                                isInvalid={errors.quantity}
                             />
+                            <Form.Control.Feedback type="invalid">
+                                La cantidad debe ser mayor que 0.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+
+                        {/* Precio */}
+                        <Form.Group controlId="formPrice">
                             <Form.Label>Precio</Form.Label>
                             <Form.Control
-                                type="Number"
-                                placeholder=""
+                                type="number"
                                 value={price}
-                                onChange={e => setPrice(e.target.value)}
-                                autoFocus
+                                onChange={e => {
+                                    setPrice(e.target.value);
+                                    if (errors.price && Number(e.target.value) > 0) {
+                                        setErrors(prev => ({ ...prev, price: false }));
+                                    }
+                                }}
+                                isInvalid={errors.price}
                             />
-                            <div className="d-flex justify-content-end mt-4 gap-3">
-                                <Button variant="primary" type='submit'>
-                                    {product ? 'editar' : 'agregar'}
-                                </Button>
-                                <Button variant="secondary" onClick={onHide}>
-                                    cancelar
-                                </Button>
-                            </div>
-
+                            <Form.Control.Feedback type="invalid">
+                                El precio debe ser mayor que 0.
+                            </Form.Control.Feedback>
                         </Form.Group>
+
+                        {/* Botones */}
+                        <div className="d-flex justify-content-end mt-4 gap-3">
+                            <Button variant="primary" type="submit">
+                                {product ? "editar" : "agregar"}
+                            </Button>
+                            <Button variant="secondary" onClick={onHide}>
+                                cancelar
+                            </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
-            </Modal>
+            </Modal >
         </>
     );
 }
