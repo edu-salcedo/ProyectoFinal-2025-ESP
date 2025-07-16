@@ -1,5 +1,5 @@
 
-import { Form, Col, Row, Spinner, Button } from 'react-bootstrap';
+import { Form, Col, Row, Spinner, Button, Container } from 'react-bootstrap';
 
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +33,7 @@ function Products() {
     // useSearchParams para obtener el parámetro de categoría de la URL
     const categoryParam = searchParams.get('categoria');
 
-    const { data: productList, loading, error } = useApi(API_URL);
+    const { data: productList, loading, error, refetch } = useApi(API_URL);
     // useApi para traer todos los productos de la API
 
     useEffect(() => {
@@ -86,6 +86,13 @@ function Products() {
         navigate(`/productos?categoria=${selectedCategory}`);
     }
 
+    const refresh = () => {
+        refetch();
+        setFilteredProducts(products); // Mostrar todos
+        setSearchTerm('');
+        navigate('/productos');
+    }
+
 
     // Calculamos los índices de los productos a mostrar en la página actual
     // se multiplica la página actual por la cantidad de productos por página
@@ -101,55 +108,61 @@ function Products() {
 
     return (
         <>
-            <Row className='w-100 m-0 p-0'>
-                <Col xs={12} md={2} lg={3} className=''>
-                    <div className="aside text-center">
-                        {filteredProducts.length < productList.length && (
-                            <Button variant='info' onClick={() => refetch()} className='my-3'>Todos los productos</Button>
-                        )}
+            <Container>
 
-                        <Form className="p-3 m-auto w-100">
-                            <Form.Control
-                                type="text"
-                                placeholder="Buscar productos..."
-                                value={searchTerm}
-                                onChange={handleInputChange}
-                            />
-                        </Form >
+                <Row >
+                    <Col xs={12} md={2} lg={3}>
+                        <div className="aside text-center">
+                            {filteredProducts.length < productList.length && (
+                                <Button variant='info' onClick={() => refresh()} className='my-3'>Todos los productos</Button>
+                            )}
 
-                        {/* componente  Dropdown para seleccionar categoría */}
-                        <h5 className='text-center mt-3'>Categorías</h5>
-                        <DropdownCategory category={categoryParam} onSelectCategory={handleSelectCategory} />
+                            <Form className="p-3 m-auto w-100">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Buscar productos..."
+                                    value={searchTerm}
+                                    onChange={handleInputChange}
+                                />
+                            </Form >
 
-                    </div>
-                </Col>
+                            {/* componente  Dropdown para seleccionar categoría */}
+                            <h5 className='text-center mt-3'>Categorías</h5>
+                            <DropdownCategory category={categoryParam} onSelectCategory={handleSelectCategory} />
 
-                <Col xs={12} md={10} lg={9} className='text-center pt-3'>
-                    <Row className='p-3 gap-4 w-100'>
-                        {currentProducts.length === 0 ? (
-                            <p className="text-center w-100 fs-3 pt-5">No se encontraron productos.</p>
-                        ) : (
-                            currentProducts.map(product => (
-                                <Col key={product.id} className=' d-flex justify-content-center'>
-                                    <ProductCard
-                                        {...product}
-                                        handleAdd={() => { handleAddToCart(product) }}
-                                        handleDetail={() => { handleDetailProduct(product.id) }}
-                                    />
-                                </Col>
-                            ))
-                        )}
-                    </Row>
-                    {totalPages > 1 && (
-                        <PaginationIU
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={setCurrentPage}
-                        />
-                    )}
+                        </div>
+                    </Col>
 
-                </Col>
-            </Row>
+                    <Col xs={12} md={10} lg={9}>
+                        <Row className='p-2 p-md-3 gap-md-5'>
+                            {currentProducts.length === 0 ? (
+                                <p className="text-center w-100 fs-3 pt-5">No se encontraron productos.</p>
+                            ) : (
+                                currentProducts.map(product => (
+                                    <Col key={product.id} className='d-flex justify-content-center'>
+                                        <ProductCard
+                                            {...product}
+                                            handleAdd={() => { handleAddToCart(product) }}
+                                            handleDetail={() => { handleDetailProduct(product.id) }}
+                                        />
+                                    </Col>
+                                ))
+                            )}
+                        </Row>
+                        <div className="w-100">
+
+                            {totalPages > 1 && (
+                                <PaginationIU
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={setCurrentPage}
+                                />
+                            )}
+                        </div>
+
+                    </Col>
+                </Row>
+            </Container>
 
             {/* Modal de confirmación  se agregó al carrito */}
             <ConfirmModal

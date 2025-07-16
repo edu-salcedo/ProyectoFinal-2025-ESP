@@ -15,9 +15,12 @@ export default function PaginationIU({ currentPage, totalPages, onPageChange }) 
   };
 
   return (
-    <div className="d-flex justify-content-center mt-3">
-      <Pagination>
-        <Pagination.Prev disabled={currentPage === 1} onClick={handlePrev}> anterior </Pagination.Prev>
+    <div className="d-flex justify-content-center mt-3 px-2">
+      <Pagination className="flex-wrap justify-content-center">
+        <Pagination.Prev disabled={currentPage === 1} onClick={handlePrev}>
+          anterior
+        </Pagination.Prev>
+
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
           <Pagination.Item
             key={page}
@@ -27,7 +30,10 @@ export default function PaginationIU({ currentPage, totalPages, onPageChange }) 
             {page}
           </Pagination.Item>
         ))}
-        <Pagination.Next disabled={currentPage === totalPages} onClick={handleNext} > siguiente </Pagination.Next>
+
+        <Pagination.Next disabled={currentPage === totalPages} onClick={handleNext}>
+          siguiente
+        </Pagination.Next>
       </Pagination>
     </div>
   );
