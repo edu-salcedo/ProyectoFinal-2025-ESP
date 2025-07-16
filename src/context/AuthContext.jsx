@@ -19,11 +19,13 @@ export function AuthProvider({ children }) {
         setIsLoading(false);
     }, []);
 
-
+    const generateToken = () => {
+        return btoa(`${Date.now()}-${Math.random()}`);
+    };
     const login = (username, password) => {
         if (username === "admin" && password === "1234") {
 
-            const fakeToken = "dG9rZW5GYWxzbzEyMzQ=";
+            const fakeToken = generateToken();
             setToken(fakeToken);
             setUser(username);
             localStorage.setItem("token", fakeToken);

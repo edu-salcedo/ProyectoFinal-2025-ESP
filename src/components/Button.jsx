@@ -3,7 +3,7 @@ export default function Button(props) {
     const { children, text } = props;
     const styleButton = {
         width: '100%',
-        backgroundColor: 'rgb(90, 53, 255)',
+        backgroundColor: '#007bff',
         color: 'white',
         borderRadius: '7px',
         border: 'none',

@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>Mi Tienda Online</title>
+        <title>Mi Tienda</title>
         <meta name="description" content="Compra los mejores productos al mejor precio" />
       </Helmet>
       <CartProvider>
