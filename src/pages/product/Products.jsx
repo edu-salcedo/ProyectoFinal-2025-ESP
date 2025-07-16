@@ -97,7 +97,7 @@ function Products() {
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
     // se calcula el total de páginas dividiendo la cantidad de productos filtrados por la cantidad de productos por página y redondeando hacia arriba
     if (loading) return <div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>;
-    if (error) return <p>{error}</p>;
+    if (error) return <p className=' container text-center my-5 fs-5'>{error}</p>;
 
     return (
         <>

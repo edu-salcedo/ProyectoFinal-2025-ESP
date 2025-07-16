@@ -7,8 +7,7 @@ import { useApi } from '../../../hooks/useApi';
 import DropdownCategory from '../../../components/Dropdown';
 
 const API_URL = 'https://6855d6011789e182b37c719b.mockapi.io/api/v1/products';
-
-export default function ProductModalForm({ product, show, onHide, onSave }) {
+export default function ProductModalForm({ product, show, onHide, onSave, lastId }) {
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -29,6 +28,7 @@ export default function ProductModalForm({ product, show, onHide, onSave }) {
             setCategory(product.category || '');
             setQuantity(product.quantity || 1);
             setPrice(product.price);
+
         } else {
             setName('');
             setDescription('')
@@ -36,6 +36,9 @@ export default function ProductModalForm({ product, show, onHide, onSave }) {
             setCategory('');
             setQuantity(1)
             setPrice('');
+            const newId = lastId + 1;
+            const picsumUrl = `https://picsum.photos/id/${newId}/300/200`;
+            setImage(picsumUrl);
         }
     }, [product, show]);
     //si el estado de producto o mostrar cambia
@@ -82,6 +85,8 @@ export default function ProductModalForm({ product, show, onHide, onSave }) {
             console.error('Error al guardar producto:', err);
         }
     };
+
+
 
 
 
@@ -135,7 +140,7 @@ export default function ProductModalForm({ product, show, onHide, onSave }) {
                             <Form.Label>URL Imagen</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="url de la imagen"
+                                placeholder="URL imagen"
                                 value={image}
                                 onChange={e => setImage(e.target.value)}
                             />

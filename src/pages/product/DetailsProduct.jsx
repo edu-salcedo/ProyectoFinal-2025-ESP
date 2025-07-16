@@ -37,7 +37,7 @@ export default function DetailsProduct() {
 
 
     if (loading) return <div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>;
-    if (error) return <p>Error: {error}</p>;
+    if (error) return <p className=' container text-center my-5 fs-5'>{error}</p>;
     if (!product) return <p>No se encontró el producto</p>;
 
     return (

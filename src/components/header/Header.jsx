@@ -44,8 +44,7 @@ function Header() {
 
                             user && (
                                 <>
-                                    <Nav.Link as={Link} to="/admin"> Admin</Nav.Link>
-                                    <Nav.Link as={Link} to="/lista-productos">Lista productos</Nav.Link>
+                                    <Nav.Link as={Link} to="/lista-productos">administrar productos</Nav.Link>
                                 </>
                             )
                         }

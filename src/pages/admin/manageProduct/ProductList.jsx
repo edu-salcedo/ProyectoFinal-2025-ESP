@@ -26,6 +26,7 @@ export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [lastId, setLastId] = useState();
   //contante para definir la cantidad de productos por página
   const productsPerPage = 8;
 
@@ -37,6 +38,7 @@ export default function ProductList() {
     if (productList) {
       setProducts(productList);
       setFilteredProducts(productList);
+      setLastId(productList[productList.length - 1].id);
     }
   }, [productList]);
 
@@ -109,13 +111,14 @@ export default function ProductList() {
   // se obtiene el array de productos filtrados y se le aplica el método slice para obtener los productos de la página actual
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   if (loading) return <div className='text-center pt-5'><Spinner animation="border" variant="primary" /></div>;
-  if (error) return <p>{error}</p>;
+
+  if (error) return <p className=' container text-center my-5 fs-5'>{error}</p>;
   if (!productList) return <p>No se encontró el producto</p>;
 
 
   return (
     <>
-      <div className='container d-flex justify-content-around flex-wrap my-4 '>
+      <div className='container d-flex justify-content-around align-items-start flex-wrap my-4 gap-4  '>
         <Button variant="primary" onClick={handleCreate}>
           Agregar Producto
         </Button>
@@ -135,9 +138,9 @@ export default function ProductList() {
         <DropdownCategory onSelectCategory={handleSelectCategory} />
       </div >
 
-      <ProductModalForm product={updateProduct} show={showModalForm} onHide={handleFormClose} onSave={handleSave} />
+      <ProductModalForm product={updateProduct} show={showModalForm} onHide={handleFormClose} onSave={handleSave} lastId={lastId} />
 
-      <div className='mh-100 px-4' style={{ height: '750px' }}>
+      <div className='mh-100 px-4' style={{ minHeight: '400px' }}>
         <Table >
           <thead>
             <tr>
