@@ -26,9 +26,9 @@ export default function Cart() {
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">cantidad</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -52,7 +52,7 @@ export default function Cart() {
                         </table>
                         <button className='btn btn-danger' onClick={() => { clearCart() }}>vaciar carrito</button>
                     </div>
-                    <div className='col-md-4  p-4 border border-secondary  rounded'>
+                    <div className='col-md-4  p-4 border border-secondary  rounded mt-3'>
                         <h4>Resumen del pedido</h4>
                         <hr />
                         <p className='fs-5 my-4'>Total a pagar: <strong>${sumTotal().toFixed(2)}</strong></p>

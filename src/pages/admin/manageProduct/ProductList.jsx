@@ -132,7 +132,7 @@ export default function ProductList() {
           />
         </Form >
         {filteredProducts.length < productList.length && (
-          <Button variant='info' onClick={() => refetch()} >Todos los productos</Button>
+          <Button variant='secondary' onClick={() => refetch()} >Todos los productos</Button>
         )}
 
         <DropdownCategory onSelectCategory={handleSelectCategory} />
@@ -140,16 +140,16 @@ export default function ProductList() {
 
       <ProductModalForm product={updateProduct} show={showModalForm} onHide={handleFormClose} onSave={handleSave} lastId={lastId} />
 
-      <div className='mh-100 px-4' style={{ minHeight: '400px' }}>
+      <div className='mh-100 px-3' style={{ minHeight: '400px' }}>
         <Table >
           <thead>
             <tr>
               <th scope="col">Id</th>
               <th scope="col"></th>
               <th scope="col">Producto</th>
-              <th scope="col">Precio</th>
-              <th scope="col">cantidad</th>
-              <th scope="col">categoria</th>
+              <th scope="col" >Precio</th>
+              <th scope="col" className="d-none d-sm-table-cell">cantidad</th>
+              <th scope="col" className="d-none d-sm-table-cell">categoria</th>
               <th scope="col"></th>
 
             </tr>
@@ -166,8 +166,8 @@ export default function ProductList() {
                   <th scope=""><img src={product.image} className='cart-img' alt="" /></th>
                   <td>{product.name}</td>
                   <td>${product.price.toFixed(2)}</td>
-                  <td>{product.quantity}</td>
-                  <td>{product.category}</td>
+                  <td className="d-none d-sm-table-cell">{product.quantity}</td>
+                  <td className="d-none d-sm-table-cell">{product.category}</td>
                   <td className='text-center'>
                     <Button variant='info' className='btn-quantity ' onClick={() => { handleUpdate(product) }}  ><i className="bi bi-pencil"></i></Button>
                     <Button variant='danger' className='btn-quantity ' onClick={() => { setShowModalConfirm(true); setIdItem(product.id) }}  ><i className="bi bi-trash3"></i></Button>
