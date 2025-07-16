@@ -1,11 +1,19 @@
 
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const CartContext = createContext()
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState();
+  //seteamos el carrito si esta en el localstrage
+  const [cart, setCart] = useState(() => {
+    const storedCart = localStorage.getItem('cart');
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
+
+  // Guardamos el carrito en localStorage cada vez que cambia
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product) => {
     // buscamos si el producto ya existe en el carrito
@@ -49,6 +57,7 @@ export function CartProvider({ children }) {
   const clearCart = () => {
     setCart([]);
     setTotalPrice(0);
+    localStorage.removeItem('cart');
   }
 
   const sumTotal = () => {
